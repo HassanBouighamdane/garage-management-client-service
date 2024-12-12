@@ -34,6 +34,15 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client getClientByEmail(String email){
+        Optional<Client> client = clientRepository.findClientByEmail(email);
+        if(client.isEmpty()){
+            throw new BusinessException("Client Not Found");
+        }
+        return client.get();
+    }
+
+    @Override
     public Client createClient(Client client){
         Optional<Client> existingClient=clientRepository.findById(client.getCin());
         if(existingClient.isPresent()) {
@@ -55,7 +64,6 @@ public class ClientServiceImpl implements ClientService {
         updatedClient.setLastName(client.getLastName());
         updatedClient.setPhone(client.getPhone());
         updatedClient.setAddress(client.getAddress());
-
 
         return clientRepository.save(updatedClient);
     }

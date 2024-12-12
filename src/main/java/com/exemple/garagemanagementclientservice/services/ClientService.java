@@ -10,5 +10,6 @@ public interface ClientService {
     Client createClient(Client client);
     Client updateClient(String id,Client client);
     void deleteClient(String id);
+    Client getClientByEmail(String email);
 
 }

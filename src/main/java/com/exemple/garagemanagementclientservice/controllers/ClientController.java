@@ -5,6 +5,7 @@ import com.exemple.garagemanagementclientservice.entities.Client;
 import com.exemple.garagemanagementclientservice.exceptions.BusinessException;
 import com.exemple.garagemanagementclientservice.repositories.ClientRepository;
 import com.exemple.garagemanagementclientservice.services.ClientService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ public class ClientController {
     @Autowired
     public ClientController(ClientService clientService, ClientRepository clientRepository) {
         this.clientService = clientService;
-
     }
 
     @GetMapping("/")
@@ -35,6 +35,15 @@ public class ClientController {
             return new ResponseEntity<>(clientService.getClientById(id),HttpStatus.OK);
         }catch(BusinessException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<Client> getClientByEmail(@PathParam("email") String email){
+        try{
+            return new ResponseEntity<>(clientService.getClientByEmail(email), HttpStatus.OK);
+        }catch (BusinessException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
